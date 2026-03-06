@@ -12,7 +12,7 @@ class TrafficEnv(gym.Env):
         # 1. DEFINE THE "EYES" (Observation Space)
         # The AI will "see" the number of cars in 4 specific lanes.
         # We define a box of 4 numbers, ranging from 0 to 100 cars.
-        self.observation_space = spaces.Box(low=0, high=100, shape=(4,), dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=100, shape=(8,), dtype=np.float32)
 
         # 2. DEFINE THE "HANDS" (Action Space)
         # The AI has 2 buttons:
@@ -28,7 +28,7 @@ class TrafficEnv(gym.Env):
         # These are the lanes the AI watches to decide if it should switch.
         # Usually: [North_Incoming, East_Incoming, South_Incoming, West_Incoming]
         # Example: "E1_0" means Edge E1, Lane 0.
-        self.lanes = ["E1_0", "-E0_0", "-E1_0", "E3_0"] 
+        self.lanes = ["E1_0", "-E0_0", "-E1_0", "E3_0","E1_1", "-E0_1", "-E1_1", "E3_1"] 
 
     def reset(self, seed=None, options=None):
         """Called at the start of every training episode."""
@@ -41,7 +41,7 @@ class TrafficEnv(gym.Env):
         traci.start(self.sumo_cmd)
         
         # Return the first "sight" of the world (0 cars initially)
-        return np.zeros(4, dtype=np.float32), {}
+        return np.zeros(8, dtype=np.float32), {}
 
     def step(self, action):
         """The AI takes an action, and we tell it what happened."""
